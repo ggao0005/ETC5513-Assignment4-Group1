@@ -41,3 +41,28 @@ output:
     toc: false
 ---
 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      eval = TRUE,
+                      message = FALSE, 
+                      warning = FALSE,
+                      comment = NA,
+                      cache = TRUE)
+```
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+
+# Libraries
+
+library(tidyverse)
+library(readr)
+library(kableExtra)
+library(bookdown)
+library(tinytex)
+library(rgdal)
+library(sf)
+library(gganimate)
+```
+# 

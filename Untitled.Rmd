@@ -53,9 +53,7 @@ knitr::opts_chunk$set(echo = TRUE,
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-
 # Libraries
-
 library(tidyverse)
 library(readr)
 library(kableExtra)
@@ -65,6 +63,11 @@ library(rgdal)
 library(sf)
 library(gganimate)
 ```
+
+
+# Research questions
+1. 
+
 
 # Analysis
 
@@ -76,7 +79,7 @@ overweight_or_obese <- read_csv("Data/share-of-adult-men-overweight-or-obese-vs-
 ```
 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # data wrangling
 daily_caloric_supply <- daily_caloric_supply %>%
   rename_all(str_remove, pattern = "\\(FAO.+\\)") %>%
@@ -88,7 +91,7 @@ dietary_compositions <- dietary_compositions %>%
 ```
 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # Area Plot
 dietary_compositions %>%
   filter(Entity == "Australia") %>%
@@ -133,9 +136,22 @@ anim_save("figure1.gif")
 ```
 
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Map Plot
+world <- readOGR(dsn = 'World_Countries_(Generalized)/.')
+world_shp <- world %>% 
+  st_as_sf()
+world_data <- daily_caloric_supply %>%
+  select(Entity, Year, `Calories from animal protein `) %>%
+  merge(world_shp,by.x = 'Entity',by.y = 'COUNTRY') %>% 
+  st_as_sf()
+```
+
+
 ```{r}
 
 ```
+
 
 
 

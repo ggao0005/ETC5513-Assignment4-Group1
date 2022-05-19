@@ -28,13 +28,18 @@ output:
 ---
 
 
-```{r echo=FALSE, include=FALSE, warning = FALSE}
-knitr::opts_chunk$set(fig.path = "Figures/", fig.align ="center",
-                      out.width = "50%",
-                      messages = FALSE, 
-                      warning = FALSE)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      eval = TRUE,
+                      message = FALSE, 
+                      warning = FALSE,
+                      comment = NA,
+                      cache = TRUE)
+```
 
-# Loading Libraries
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Libraries
 library(dplyr)
 library(tidyverse)
 library(readr)
@@ -48,7 +53,6 @@ library(knitr)
 library(scales)
 library(patchwork)
 ```
-
 
 
 \newpage

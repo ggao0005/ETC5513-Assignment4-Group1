@@ -35,6 +35,7 @@ knitr::opts_chunk$set(fig.path = "Figures/", fig.align ="center",
                       warning = FALSE)
 
 # Loading Libraries
+library(dplyr)
 library(tidyverse)
 library(readr)
 library(kableExtra)
@@ -59,7 +60,7 @@ In this report, I study the differences in diet between the United States and Ja
 
 
 ```{r filter-section1-read data}
-data <- read.csv('daily-caloric-supply-derived-from-carbohydrates-protein-and-fat.csv')
+data <- read.csv("Data/daily-caloric-supply-derived-from-carbohydrates-protein-and-fat.csv")
 
 mydata <- data %>% filter(Entity %in% c("United States","Japan"))
 ```

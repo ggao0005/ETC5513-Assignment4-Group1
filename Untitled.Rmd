@@ -1,30 +1,60 @@
 ---
-title: "Untitled"
-author: "GUI GAO"
-date: '2022-05-17'
-output: html_document
+title: "Analysis on Japan&United State"
+author:
+- familyname: Wang
+  othernames: Shu
+  address: Monash Universtidy
+  email: swan0249@student.monash.edu
+  correspondingauthor: true
+  qualifications:  Student
+department: Our consultancy \newline add names &\newline add names
+organization: Australian Government COVID19
+bibliography: references.bib
+biblio-style: authoryear-comp
+linestretch: 1.5
+output:
+  bookdown::pdf_document2:
+    template: monashreport2.tex
+    fig_caption: yes
+    fig_height: 5
+    fig_width: 8
+    includes:
+      in_header: preamble.tex
+    keep_tex: yes
+    number_sections: yes
+    citation_package: biblatex
+    toc: false
+
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+```{r echo=FALSE, include=FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.path = "Figures/", fig.align ="center",
+                      out.width = "50%",
+                      messages = FALSE, 
+                      warning = FALSE)
+
+# Loading Libraries
+library(tidyverse)
+library(readr)
+library(kableExtra)
+library(tinytex)
+library(bookdown)
+library(naniar)
+library(visdat)
+library(citation)
+library(knitr)
+library(scales)
+library(patchwork)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+\newpage
+\section*{Country United State and Japan"}
+\addcontentsline{toc}{subsection}{Introduction}
+\subsection*{Introduction}
+With the improvement of people's living standards, more and more people begin to pay attention to diet. As we all know, a healthy diet can help us maintain a healthy body and figure, and effectively prevent dangerous diseases such as high blood pressure and high blood lipids. In our daily diet, our calorie intake mainly comes from three major nutrients, namely protein, fat and carbohydrates. Studies have shown that the proportion of the three major nutrients in the daily diet plays a very important role in human health. On the other hand, people in different regions have different eating habits due to differences in climate and terrain. The food culture of each country is very different, Americans love sweets and bread, Japanese love seafood and small dishes.
+In this report, I study the differences in diet between the United States and Japan and analyze the changes in the per capita calorie intake and the intake of the three major nutrients in the United States and Japan since 1960, starting from two aspects of eating habits and time trends A comparative analysis of the eating habits and health of the two countries.
 
-```{r cars}
-summary(cars)
-```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

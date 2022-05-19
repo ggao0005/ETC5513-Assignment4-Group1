@@ -58,3 +58,83 @@ With the improvement of people's living standards, more and more people begin to
 In this report, I study the differences in diet between the United States and Japan and analyze the changes in the per capita calorie intake and the intake of the three major nutrients in the United States and Japan since 1960, starting from two aspects of eating habits and time trends A comparative analysis of the eating habits and health of the two countries.
 
 
+```{r filter-section1-read data}
+data <- read.csv('daily-caloric-supply-derived-from-carbohydrates-protein-and-fat.csv')
+
+mydata <- data %>% filter(Entity %in% c("United States","Japan"))
+```
+
+```{r missing_section_data, eval=FALSE}
+pct_miss(mydata) #0 missingness in the UK and Iceland data
+pct_miss_case(mydata)
+pct_miss_var(mydata)
+```
+
+
+```{r data preprocessing}
+
+mydata <- mydata %>% 
+  mutate(total_Cal = Calories.from.animal.protein..FAO..2017..
+         +Calories.from.plant.protein..FAO..2017..
+         +Calories.from.fat..FAO..2017..
+         +Calories.from.carbohydrates..FAO..2017..,
+         Protein_Cal=Calories.from.animal.protein..FAO..2017..
+         +Calories.from.plant.protein..FAO..2017..,
+         `Protein(%)`=percent((
+           Calories.from.animal.protein..FAO..2017..
+           +Calories.from.plant.protein..FAO..2017..)/total_Cal,
+           accuracy = 4),
+         `Fat(%)`=percent(
+           Calories.from.fat..FAO..2017../total_Cal
+           ,accuracy = 4),
+         `Carbohydrates(%)`=percent(
+           Calories.from.carbohydrates..FAO..2017../total_Cal,
+           accuracy = 4))%>%
+  rename(Fat_Cal=Calories.from.fat..FAO..2017..,
+         Carbohydrates_Cal=Calories.from.carbohydrates..FAO..2017..,
+         Animal_Protein_Cal=Calories.from.animal.protein..FAO..2017..,
+         Plant_Protein_Cal=Calories.from.plant.protein..FAO..2017..)
+mydata=mydata%>%
+  filter(Year<=2010)%>%
+  filter(Year>=1961)
+
+US_Data <- mydata %>% filter(Entity =="United States") 
+
+Japan_Data <- mydata %>% filter(Entity =="Japan")
+
+mydata <- US_Data %>% rbind(Japan_Data)
+
+mydata_long <- mydata %>% 
+  pivot_longer(cols=c(total_Cal,Protein_Cal, Fat_Cal,Carbohydrates_Cal ),
+               names_to = "impact_variable", values_to = "measure")
+```
+
+
+\addcontentsline{toc}{subsection}{Question1}
+\subsection*{Question1}
+(1)What is the difference in the proportions of total Calories and the three major nutrients (protein, fat, carbohydrate) from 1970 in the American and Japanese diets?
+
+```{r ThreemajorComparision, tab.cap = "Energy Consumption Comparision"}
+mydata %>% 
+  pivot_wider(id_cols = c(Year),
+              names_from = Entity,
+              values_from = c(total_Cal)) %>%
+  filter(Year>=1970)%>%
+  arrange(desc(Year)) %>%
+  knitr::kable(caption = "Proportions of the Nutrients Comparision")
+```
+
+
+```{r proportion_countries_yearly, fig.cap="Proportion Share Across The Years", include=FALSE}
+mydata_long %>% ggplot() +
+  geom_col(mapping = aes(x = Year, y = measure, fill = Entity), position="fill")+facet_wrap(~impact_variable, nrow = 2)+ylab("Proportion")
+```
+\begin{figure}[H]
+\includegraphics[width=6in, height = 2in]{Figures/proportion_countries_yearly-1}
+\caption{Proportion Share Across The Years}
+\label{fig:proportion_countries_yearly}
+\end{figure}
+
+Figure 1 and Table 1 show that from 1961 to 2010, the share of per capita calorie intake in the United States and Japan did not change much, with the United States consistently having slightly higher calorie intake than Japan.
+From the perspective of the proportion of the three major nutrients of protein, fat and carbohydrates, the intake of fat in the American people's diet is much higher than that of the Japanese, and the intake of carbohydrates in the daily diet of the Japanese is higher than that of the United States. people. For protein intake, Americans and Japanese intakes are not much different.
+In summary, we can find that in terms of dietary habits, Japan and the United States show significant differences in the ratio of carbohydrates and fats in calorie intake. The American diet has more calories from fat, while the Japanese diet has more carbohydrates.
